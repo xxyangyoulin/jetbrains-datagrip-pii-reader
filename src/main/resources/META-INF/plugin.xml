@@ -1,0 +1,34 @@
+<idea-plugin>
+  <id>cn.swg.workbench.pii-reader</id>
+  <name>Workbench PII Reader</name>
+  <version>0.7.0</version>
+  <vendor>Workbench</vendor>
+  <description>MySQL SELECT with decr and hash, JOIN support and per-field JSST/ERP routing through authenticated Workbench endpoints.</description>
+  <idea-version since-build="262" until-build="262.*"/>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.database</depends>
+  <depends>intellij.grid.core.plugin</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <daemon.intentionActionFilter implementation="cn.swg.pii.NativeIntentionFilter"/>
+    <intentionAction>
+      <className>cn.swg.pii.NativeQueryIntention</className>
+      <category>SQL</category>
+    </intentionAction>
+    <database.datagrid.objectNormalizerProvider implementation="cn.swg.pii.PiiObjectNormalizerProvider" order="first"/>
+    <sql.inspectionSuppressorDelegate implementation="cn.swg.pii.PiiInspectionSuppressor"/>
+  </extensions>
+  <actions>
+    <action id="Console.Jdbc.Execute" overrides="true" class="cn.swg.pii.NativeExecuteAction" icon="AllIcons.Actions.Execute" use-shortcut-of="Console.Execute.Multiline"/>
+    <action id="Console.Jdbc.Execute.2" overrides="true" class="cn.swg.pii.NativeExecuteAction$Alt2"/>
+    <action id="Console.Jdbc.Execute.3" overrides="true" class="cn.swg.pii.NativeExecuteAction$Alt3"/>
+    <action id="Console.Jdbc.Execute.Selection" overrides="true" class="cn.swg.pii.NativeExecuteAction$Selection"/>
+    <action id="Console.Jdbc.ExplainPlan" overrides="true" class="cn.swg.pii.NativeExplainActions$Plan"/>
+    <action id="Console.Jdbc.ExplainAnalyse" overrides="true" class="cn.swg.pii.NativeExplainActions$Analyse"/>
+    <action id="Console.Jdbc.ExplainPlan.Raw" overrides="true" class="cn.swg.pii.NativeExplainActions$RawPlan"/>
+    <action id="Console.Jdbc.ExplainAnalyse.Raw" overrides="true" class="cn.swg.pii.NativeExplainActions$RawAnalyse"/>
+    <action id="WorkbenchPii.Execute" class="cn.swg.pii.ExecuteAction" text="执行 PII 查询" description="只读查询并通过 Workbench 解密结果">
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
+  </actions>
+</idea-plugin>
